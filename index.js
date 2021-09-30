@@ -1,5 +1,6 @@
 require('dotenv').config()
 const path = require('path')
+const cors = require('cors')
 
 console.log(process.argv[2])
 console.log(process.env.USER)
@@ -7,6 +8,7 @@ console.log(process.env.USER)
 const express = require('express')
 
 const server = express()
+server.use(cors())
 server.use(express.json())
 server.use(express.static(
   path.join(__dirname, 'client/build')
