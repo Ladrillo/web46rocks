@@ -1,22 +1,25 @@
 require('dotenv').config()
+const path = require('path')
 
-console.log(`web46 rulez!!!!`)
 console.log(process.argv[2])
-console.log(process.argv[3])
 console.log(process.env.USER)
-console.log(process.env.FOO)
 
 const express = require('express')
 
 const server = express()
 server.use(express.json())
+server.use(express.static(
+  path.join(__dirname, 'client/build')
+))
 
-server.get('/', (req, res) => {
-  res.json({ message: 'web 46 rocks!' })
+server.get('/api/users', (req, res) => {
+  res.json([{ id: 1, name: 'Leo' }])
 })
 
-server.get('/hello', (req, res) => {
-  res.send('<h1>HELLO THERE!</h1>')
+server.get('*', (req, res) => {
+  res.sendFile(
+    path.join(__dirname, 'client/build', 'index.html')
+  )
 })
 
 const port = process.env.PORT || 3000
